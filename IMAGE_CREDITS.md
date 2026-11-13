@@ -21,3 +21,14 @@ top-anchored viewport that crops excess content from the bottom on landscape dis
 
 The original 8192 × 5464 image is stored locally and displayed only as the full-width Experience
 section background. Responsive `cover` crops preserve the photograph’s proportions.
+
+## Projects hero
+
+- **Photographer:** Filip Zrnzević
+- **Photograph:** “Aerial photography of forest”
+- **Original:** [Unsplash photograph](https://unsplash.com/photos/aerial-photography-of-forest-QsWG0kjPQRY)
+- **Local file:** `public/images/filip-zrnzevic-forest.jpg`
+- **Licence:** [Unsplash Licence](https://unsplash.com/license)
+
+The optimized 3000 × 4500 photograph is stored locally and used only by the Projects hero.
+Responsive `cover` crops preserve its proportions while keeping the fog and forest canopy visible.

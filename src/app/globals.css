@@ -797,3 +797,160 @@ svg { display: block; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
 }
+
+/* Forest engineering lab — Projects route */
+.forest-projects {
+  --forest-bg: #101d17;
+  --forest-surface: #172820;
+  --forest-surface-strong: #1d3328;
+  --forest-pine: #2d4d3b;
+  --forest-moss: #71936c;
+  --forest-sage: #b2d0aa;
+  --forest-mist: #e8efe0;
+  --forest-muted: #b4c4b5;
+  --forest-border: rgb(178 208 170 / 25%);
+  min-height: 100vh;
+  overflow: hidden;
+  background: var(--forest-bg);
+  color: var(--forest-mist);
+}
+.forest-projects :focus-visible { outline-color: var(--forest-sage); }
+.forest-projects p,
+.forest-projects .forest-project-subtitle,
+.forest-projects .forest-card-subtitle,
+.forest-projects .forest-explanation {
+  font-family: var(--font-projects-sans), "Helvetica Neue", Arial, sans-serif;
+}
+.forest-projects h1,
+.forest-projects h2,
+.forest-projects h3 { font-family: var(--font-projects-mono), "SFMono-Regular", Consolas, monospace; }
+.forest-projects button,
+.forest-projects select,
+.forest-projects summary,
+.forest-projects output,
+.forest-projects .forest-project-index,
+.forest-projects .forest-tag-list,
+.forest-projects .forest-section-heading > span,
+.forest-projects .forest-demo-header,
+.forest-projects .forest-demo-note,
+.forest-projects .forest-filters,
+.forest-projects .forest-project-card > span,
+.forest-projects .forest-project-card > ul {
+  font-family: var(--font-projects-mono), "SFMono-Regular", Consolas, monospace;
+}
+
+.forest-hero { position: relative; min-height: clamp(430px, 48vw, 620px); overflow: hidden; background: #182b21; }
+.forest-hero-image { object-fit: cover; object-position: center 58%; }
+.forest-hero-overlay { position: absolute; inset: 0; background: linear-gradient(90deg, rgb(7 21 14 / 70%) 0%, rgb(10 29 19 / 40%) 52%, rgb(10 29 19 / 18%) 100%); }
+.forest-hero-content { position: relative; z-index: 1; display: flex; min-height: inherit; flex-direction: column; justify-content: flex-end; padding-top: 72px; padding-bottom: clamp(48px, 7vw, 84px); }
+.forest-hero h1 { max-width: 13ch; margin: 0; font-size: clamp(3.7rem, 8vw, 7.7rem); font-weight: 600; line-height: 0.92; letter-spacing: -0.04em; }
+.forest-hero p { max-width: 55ch; margin: 24px 0 0; color: #d7e3d3; font-size: clamp(1rem, 1.3vw, 1.2rem); line-height: 1.55; }
+
+.forest-section { padding-top: clamp(64px, 8vw, 108px); padding-bottom: clamp(68px, 8vw, 112px); }
+.forest-section-heading { display: grid; gap: 10px; margin-bottom: clamp(36px, 5vw, 58px); }
+.forest-section-heading > span { color: var(--forest-sage); font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; }
+.forest-section-heading h2 { margin: 0; font-size: clamp(2.4rem, 5vw, 5rem); font-weight: 600; line-height: 0.98; letter-spacing: -0.035em; }
+
+.forest-feature { display: grid; gap: clamp(28px, 5vw, 72px); align-items: center; padding: clamp(28px, 4vw, 52px) 0; border-top: 1px solid var(--forest-border); }
+.forest-feature + .forest-feature { margin-top: clamp(38px, 6vw, 76px); }
+.forest-feature-copy { min-width: 0; }
+.forest-project-index { color: var(--forest-sage); font-size: 0.68rem; font-weight: 600; letter-spacing: 0.08em; }
+.forest-feature h3 { margin: 14px 0 0; font-size: clamp(2.5rem, 5vw, 5.5rem); font-weight: 600; line-height: 0.98; letter-spacing: -0.035em; }
+.forest-project-subtitle { margin: 10px 0 0 !important; color: var(--forest-sage) !important; font-family: var(--font-projects-sans), "Helvetica Neue", Arial, sans-serif; font-size: clamp(1.15rem, 2vw, 1.55rem); font-weight: 500; }
+.forest-feature-copy > p:not(.forest-project-subtitle) { max-width: 54ch; margin: 22px 0 0; color: var(--forest-muted); line-height: 1.65; }
+.forest-tag-list { display: flex; flex-wrap: wrap; gap: 7px; margin: 24px 0 0; padding: 0; list-style: none; }
+.forest-tag-list li { padding: 5px 8px; border: 1px solid var(--forest-border); border-radius: 3px; color: #dbe8d7; background: rgb(178 208 170 / 5%); font-size: 0.68rem; }
+.forest-explanation { margin-top: 26px; border-top: 1px solid var(--forest-border); border-bottom: 1px solid var(--forest-border); }
+.forest-explanation summary { min-height: 44px; padding: 13px 0; color: var(--forest-sage); font-size: 0.72rem; cursor: pointer; }
+.forest-explanation > div { padding: 2px 0 16px; }
+.forest-explanation p { margin: 8px 0; color: var(--forest-muted); font-size: 0.88rem; line-height: 1.55; }
+.forest-explanation strong { color: var(--forest-mist); }
+
+.forest-demo-panel { min-width: 0; overflow: hidden; border: 1px solid var(--forest-border); border-radius: 7px; background: rgb(12 27 19 / 88%); box-shadow: 0 18px 50px rgb(0 0 0 / 20%); }
+.forest-demo-header { display: flex; justify-content: space-between; gap: 20px; align-items: start; padding: 15px 18px; border-bottom: 1px solid var(--forest-border); }
+.forest-demo-header > div { display: grid; gap: 2px; }
+.forest-demo-header span { color: var(--forest-sage); font-size: 0.62rem; letter-spacing: 0.08em; }
+.forest-demo-header strong { color: var(--forest-mist); font-size: 0.72rem; font-weight: 500; }
+.forest-demo-panel svg { width: 100%; height: auto; }
+.trajectory-field { fill: #0d1813; }
+.trajectory-grid { fill: none; stroke: rgb(162 196 155 / 10%); stroke-width: 1; }
+.trajectory-axis, .bandit-axis { fill: none; stroke: rgb(232 239 224 / 38%); stroke-width: 1; }
+.trajectory-path { fill: none; stroke: var(--forest-sage); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.trajectory-point { fill: var(--forest-moss); }
+.trajectory-current { fill: var(--forest-mist); stroke: var(--forest-moss); stroke-width: 4; }
+.trajectory-orientation { stroke: #d2acbd; stroke-width: 2; }
+.trajectory-demo text, .bandit-demo text { fill: var(--forest-muted); font: 500 10px var(--font-projects-mono), monospace; }
+.trajectory-controls { display: grid; grid-template-columns: auto auto minmax(100px, 1fr) auto; gap: 9px; align-items: center; padding: 14px 18px; border-top: 1px solid var(--forest-border); }
+.forest-demo-panel button, .forest-filters button { min-height: 40px; border: 1px solid var(--forest-border); border-radius: 3px; background: transparent; color: var(--forest-mist); font-size: 0.68rem; cursor: pointer; transition: border-color var(--duration-fast), background var(--duration-fast), color var(--duration-fast); }
+.forest-demo-panel button { padding: 7px 10px; }
+.forest-demo-panel button:hover, .forest-filters button:hover { border-color: var(--forest-sage); color: var(--forest-sage); }
+.trajectory-controls label { display: grid; }
+.trajectory-controls input { width: 100%; accent-color: var(--forest-moss); }
+.trajectory-controls output { color: var(--forest-sage); font-size: 0.66rem; }
+.forest-demo-note { margin: 0; padding: 0 18px 16px; color: #8fa492; font-size: 0.61rem; line-height: 1.55; }
+
+.forest-feature-bandits { align-items: start; }
+.bandit-controls { display: grid; grid-template-columns: minmax(170px, 1fr) auto auto; gap: 9px; align-items: end; padding: 16px 18px; }
+.bandit-controls label { display: grid; gap: 6px; color: var(--forest-sage); font: 500 0.65rem var(--font-projects-mono), monospace; }
+.bandit-controls select { min-height: 40px; padding: 7px 32px 7px 9px; border: 1px solid var(--forest-border); border-radius: 3px; background: #14251c; color: var(--forest-mist); font-size: 0.7rem; }
+.bandit-chart { margin: 0 18px; border: 1px solid var(--forest-border); background: #0d1813; }
+.bandit-chart-heading { display: flex; justify-content: space-between; padding: 11px 13px; border-bottom: 1px solid var(--forest-border); color: var(--forest-muted); font: 500 0.62rem var(--font-projects-mono), monospace; }
+.bandit-chart-heading output { color: var(--forest-sage); }
+.bandit-guide { stroke: rgb(162 196 155 / 10%); stroke-width: 1; }
+.bandit-regret-path { fill: none; stroke: var(--forest-sage); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.bandit-pulls { display: grid; gap: 7px; padding: 16px 18px; }
+.bandit-pulls > div { display: grid; grid-template-columns: 24px 1fr 30px; gap: 8px; align-items: center; color: var(--forest-muted); font: 500 0.62rem var(--font-projects-mono), monospace; }
+.bandit-pulls > div > div { height: 5px; overflow: hidden; background: rgb(162 196 155 / 12%); }
+.bandit-pulls i { display: block; height: 100%; background: var(--forest-moss); transition: width var(--duration-slow) var(--ease-standard); }
+.bandit-pulls strong { color: var(--forest-mist); font-weight: 500; text-align: right; }
+.bandit-sequence { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; margin: 0; padding: 0 18px 15px; }
+.bandit-sequence > span { width: 100%; color: var(--forest-sage); font: 500 0.6rem var(--font-projects-mono), monospace; letter-spacing: 0.06em; }
+.bandit-sequence i { padding: 2px 4px; border: 1px solid var(--forest-border); color: var(--forest-muted); font: normal 0.58rem var(--font-projects-mono), monospace; }
+.bandit-sequence em { color: #8fa492; font-size: 0.76rem; font-style: normal; }
+
+.forest-all-projects { padding-top: 22px; border-top: 1px solid var(--forest-border); }
+.forest-gallery-heading { margin-top: clamp(48px, 6vw, 76px); }
+.forest-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+.forest-filters button { padding: 7px 12px; }
+.forest-filters button[aria-pressed="true"] { border-color: var(--forest-sage); background: var(--forest-sage); color: #122018; }
+.forest-project-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.forest-project-card { display: flex; min-width: 0; flex-direction: column; padding: clamp(20px, 2.5vw, 30px); border: 1px solid var(--forest-border); border-radius: 5px; background: var(--forest-surface); transition: border-color var(--duration-fast), transform var(--duration-base) var(--ease-standard); }
+.forest-project-card:hover { border-color: rgb(178 208 170 / 48%); transform: translateY(-2px); }
+.forest-project-card > span { color: var(--forest-sage); font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; }
+.forest-project-card h3 { margin: 12px 0 0; font-size: clamp(1.5rem, 2.5vw, 2.35rem); line-height: 1.05; letter-spacing: -0.035em; }
+.forest-card-subtitle { margin: 6px 0 0 !important; color: var(--forest-sage) !important; font-weight: 600; }
+.forest-project-card > p { margin: 17px 0 0; color: var(--forest-muted); line-height: 1.55; }
+.forest-project-card > ul { display: flex; flex-wrap: wrap; gap: 6px; margin: 22px 0 0; padding: 0; list-style: none; }
+.forest-project-card > ul li { padding: 3px 6px; border: 1px solid var(--forest-border); border-radius: 2px; color: #cad9c7; font-size: 0.61rem; }
+.forest-project-card details { margin-top: auto; padding-top: 22px; }
+.forest-project-card summary { min-height: 40px; padding: 9px 0; border-top: 1px solid var(--forest-border); color: var(--forest-sage); font: 500 0.68rem var(--font-projects-mono), monospace; cursor: pointer; }
+.forest-project-card details p { margin: 7px 0 0; color: var(--forest-muted); font-size: 0.86rem; line-height: 1.55; }
+
+@media (min-width: 900px) {
+  .forest-feature { grid-template-columns: minmax(280px, 0.72fr) minmax(0, 1.28fr); }
+  .forest-feature-bandits { grid-template-columns: minmax(0, 1.28fr) minmax(280px, 0.72fr); }
+  .forest-feature-bandits .forest-feature-copy { order: 2; }
+}
+
+@media (max-width: 760px) {
+  .forest-hero { min-height: 440px; }
+  .forest-hero-image { object-position: center 62%; }
+  .forest-hero-overlay { background: rgb(8 18 13 / 58%); }
+  .forest-project-grid { grid-template-columns: 1fr; }
+  .trajectory-controls { grid-template-columns: 1fr 1fr; }
+  .trajectory-controls label { grid-column: 1 / -1; }
+  .bandit-controls { grid-template-columns: 1fr 1fr; }
+  .bandit-controls label { grid-column: 1 / -1; }
+}
+
+@media (max-width: 440px) {
+  .forest-hero h1 { font-size: 3.35rem; }
+  .forest-demo-header { align-items: start; flex-direction: column; gap: 8px; }
+  .bandit-controls { grid-template-columns: 1fr; }
+  .bandit-controls label { grid-column: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .forest-project-card:hover { transform: none; }
+  .bandit-pulls i { transition: none; }
+}
