@@ -2,7 +2,7 @@ export const education = [
   {
     institution: "University of Toronto",
     degree: "MSc Applied Computing",
-    dates: "2026–2027 (Expected)",
+    dates: "September 2026 – December 2027 (Expected)",
     coursework: [
       "Introduction to Machine Learning",
       "Neural Networks and Deep Learning",
@@ -12,7 +12,7 @@ export const education = [
   {
     institution: "McMaster University",
     degree: "BSc Honours Mathematics and Computer Science",
-    dates: "2021–2026",
+    dates: "September 2021 – April 2026",
     gpa: "3.9/4.0",
     awards: [
       {
@@ -30,15 +30,6 @@ export const education = [
       {
         name: "Dean's Honour List",
         description: "Awarded to students who achieve a minimum average of 3.5/4.0 across 30.0 units.",
-      },
-      {
-        name: "Biology Honour Roll",
-        description: "Awarded for achieving a minimum mark of A in the following courses:",
-        courses: [
-          "BIOLOGY 1A03 — Cellular and Molecular Biology",
-          "BIOLOGY 2A03 — Integrative Physiology of Animals",
-          "BIOLOGY 2EE3 — Introduction to Microbiology and Biotechnology",
-        ],
       },
       {
         name: "Faculty of Science Achievement Award",
@@ -60,11 +51,11 @@ export const education = [
 ];
 
 export const technologyGroups = [
-  { label: "Languages", technologies: ["Python", "C", "C++", "Java", "SQL", "TypeScript", "JavaScript", "R", "Bash"] },
-  { label: "ML & Scientific Computing", technologies: ["PyTorch", "scikit-learn", "OpenCV", "NumPy", "Pandas", "SciPy", "Matplotlib"] },
+  { label: "Languages", technologies: ["Python", "C/C++", "Java", "JavaScript/TypeScript", "SQL", "R", "Bash"] },
+  { label: "ML & Scientific Computing", technologies: ["PyTorch", "scikit-learn", "OpenCV", "NumPy", "Pandas", "SciPy"] },
   { label: "Web Development", technologies: ["React", "Next.js", "Node.js"] },
   { label: "Databases & Systems", technologies: ["SQLite", "Linux/Unix"] },
-  { label: "Developer Tools", technologies: ["Git", "GitHub", "Jupyter", "pytest", "Claude Code", "OpenAI Codex"] },
+  { label: "Developer Tools", technologies: ["Git", "pytest"] },
 ];
 
 export const experience = [
@@ -75,8 +66,7 @@ export const experience = [
     location: "Hamilton, ON",
     details: [
       "Led weekly tutorials for 30–50 students in COMPSCI 2DB3 (Databases), teaching SQL, relational schema design, normalization, and query optimization.",
-      "Evaluated 100+ assignments, providing detailed feedback on schema design and query efficiency.",
-      "Supported students through office hours and online platforms by debugging SQL queries and clarifying concepts.",
+      "Evaluated 100+ assignments and supported students through office hours and online platforms.",
     ],
   },
   {

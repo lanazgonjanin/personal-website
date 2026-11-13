@@ -35,36 +35,53 @@ export default function Home() {
         </div>
       </section>
 
-      <EducationSection />
+      <section className="profile-section credentials-section page-shell" aria-label="Education and technical skills">
+        <div className="credentials-grid">
+          <EducationSection />
 
-      <section className="profile-section tech-section page-shell" aria-labelledby="tech-title">
-        <SectionHeading id="tech-title" title="Tech Stack" />
-        <div className="technology-grid">
-          {technologyGroups.map((group) => (
-            <div className="technology-group" key={group.label}>
-              <h3>{group.label}</h3>
-              <ul>{group.technologies.map((technology) => <li key={technology}>{technology}</li>)}</ul>
+          <div className="technology-column">
+            <SectionHeading id="tech-title" title="Tech Stack" />
+            <div className="technology-panel" aria-labelledby="tech-title">
+              <div className="technology-grid">
+                {technologyGroups.map((group) => (
+                  <div className="technology-group" key={group.label}>
+                    <h3>{group.label}</h3>
+                    <ul>{group.technologies.map((technology) => <li key={technology}>{technology}</li>)}</ul>
+                  </div>
+                ))}
+              </div>
             </div>
-          ))}
+          </div>
         </div>
       </section>
 
-      <section className="profile-section experience-profile-section page-shell" aria-labelledby="experience-title">
-        <SectionHeading id="experience-title" title="Experience" />
-        <div className="experience-list">
-          {experience.map((entry) => (
-            <article className="experience-entry" key={entry.role}>
-              <div className="experience-date">
-                <span className="mono-label">{entry.dates}</span>
-              </div>
-              <div className="experience-primary">
-                <h3>{entry.role}</h3>
-                <p>{entry.organization}</p>
-                <p className="experience-location">{entry.location}</p>
-              </div>
-              <ul>{entry.details.map((detail) => <li key={detail}>{detail}</li>)}</ul>
-            </article>
-          ))}
+      <section className="profile-section experience-profile-section" aria-labelledby="experience-title">
+        <Image
+          alt=""
+          aria-hidden="true"
+          className="experience-background-image"
+          fill
+          sizes="100vw"
+          src="/images/magda-ehlers-ocean-waves.jpg"
+        />
+        <div className="experience-overlay" aria-hidden="true" />
+        <div className="experience-content page-shell">
+          <SectionHeading id="experience-title" title="Experience" />
+          <div className="experience-list">
+            {experience.map((entry) => (
+              <article className="experience-entry" key={entry.role}>
+                <div className="experience-date">
+                  <span className="mono-label">{entry.dates}</span>
+                </div>
+                <div className="experience-primary">
+                  <h3>{entry.role}</h3>
+                  <p>{entry.organization}</p>
+                  <p className="experience-location">{entry.location}</p>
+                </div>
+                <ul>{entry.details.map((detail) => <li key={detail}>{detail}</li>)}</ul>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -75,7 +92,10 @@ export default function Home() {
             <article className="compact-publication" key={publication.title}>
               <div>
                 <h3><a href={publication.href}>{publication.title}<span aria-hidden="true"> ↗</span></a></h3>
-                <p>{publication.venue} · {publication.date}</p>
+                <p className="publication-meta">
+                  <span>{publication.venue}</span>
+                  <span className="publication-date">{publication.date}</span>
+                </p>
               </div>
             </article>
           ))}
