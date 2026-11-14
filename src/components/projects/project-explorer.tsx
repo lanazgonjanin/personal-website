@@ -19,11 +19,14 @@ const projectOrder = [
 ];
 
 const parallaxSteps = [
-  ["Feature detection and matching", "Detect ORB features in consecutive camera frames and match corresponding points to identify visual changes."],
-  ["Motion estimation", "Use RANSAC-based geometry and pose recovery to estimate the camera's relative rotation and translation direction, then accumulate these estimates into a trajectory."],
-  ["Scale ambiguity", "Fit a global scale factor using KITTI ground-truth positions to address monocular scale ambiguity and evaluate the estimated trajectory in metres."],
-  ["Temporal rotation correction", "Identify inconsistent rotation estimates using neighbouring frames and correct them to reduce accumulated trajectory drift."],
+  ["Step 1 — Feature detection and matching", "Detect ORB features in consecutive camera frames and match corresponding points to identify visual changes."],
+  ["Step 2 — Motion estimation", "Use RANSAC-based geometry and pose recovery to estimate relative camera motion and reconstruct a trajectory."],
+  ["Step 3 — Scale ambiguity", "Fit a global scale factor using KITTI ground-truth positions to evaluate the estimated trajectory in metres."],
+  ["Step 4 — Temporal rotation correction", "Identify inconsistent rotation estimates using neighbouring frames and correct them to reduce accumulated trajectory drift."],
 ] as const;
+
+const parallaxDescription =
+  "A monocular visual odometry system that estimates a vehicle's trajectory from a single camera and improves it with temporal rotation correction.";
 
 const banditDescription =
   "A working comparison of Explore-Then-Commit and Upper Confidence Bound on the same seeded reward environment.";
@@ -49,8 +52,10 @@ function ProjectPreview({ project }: { project: Project }) {
         <Image
           alt=""
           height={1554}
+          priority
           sizes="(min-width: 900px) 40vw, 90vw"
           src="/images/parallax-temporal-rotation-correction-1000.png"
+          unoptimized
           width={1547}
         />
       </div>
@@ -117,7 +122,79 @@ function ProjectPreview({ project }: { project: Project }) {
   return null;
 }
 
-function ProjectDetail({ project, onEnlargePlot }: { project: Project; onEnlargePlot: () => void }) {
+function ParallaxCardFront({ isFlipped, project }: { isFlipped: boolean; project: Project }) {
+  return (
+    <div aria-hidden={isFlipped} className="explorer-card-face explorer-card-front parallax-card-front">
+      <div className="parallax-card-copy">
+        <h3>{project.title}</h3>
+        <p>{parallaxDescription}</p>
+        <ul aria-label={`${project.title} technologies and topics`}>
+          {project.topics.slice(0, 5).map((topic) => <li key={topic}>{topic}</li>)}
+        </ul>
+      </div>
+      <ProjectPreview project={project} />
+    </div>
+  );
+}
+
+function ParallaxCardBack({
+  isFlipped,
+  onExplore,
+}: {
+  isFlipped: boolean;
+  onExplore: (trigger: HTMLButtonElement) => void;
+}) {
+  return (
+    <div aria-hidden={!isFlipped} className="explorer-card-face explorer-card-back parallax-card-back">
+      <h3>Reducing trajectory drift</h3>
+      <div className="parallax-back-copy">
+        <p><strong>Problem</strong>Small errors in camera rotation accumulate over time, causing the reconstructed trajectory to drift away from the vehicle&apos;s actual path.</p>
+        <p><strong>Solution</strong>Developed an offline temporal rotation correction method that identifies inconsistent rotation estimates using neighbouring frames, improving the reconstructed trajectory.</p>
+      </div>
+      <div className="parallax-result">
+        <strong>69.3%</strong>
+        <span>Reduction in final accumulated orientation error over the first 1,000 frames of the KITTI driving dataset.</span>
+      </div>
+      <button
+        className="explorer-open-button"
+        onClick={(event) => { event.stopPropagation(); onExplore(event.currentTarget); }}
+        tabIndex={isFlipped ? 0 : -1}
+        type="button"
+      >
+        Explore project <span aria-hidden="true">↗</span>
+      </button>
+    </div>
+  );
+}
+
+function ParallaxProjectDetail({ onEnlargePlot }: { onEnlargePlot: () => void }) {
+  return (
+    <div className="explorer-detail-body parallax-detail">
+      <header className="explorer-detail-intro parallax-detail-overview">
+        <h2 id="project-dialog-title">Parallax</h2>
+        <p>{parallaxDescription}</p>
+        <div className="parallax-dataset-note">
+          <strong>Dataset: KITTI Visual Odometry Benchmark</strong>
+          <p>A real-world driving dataset containing camera sequences and reference vehicle trajectories, used to evaluate visual odometry algorithms.</p>
+        </div>
+      </header>
+      <section className="explorer-detail-section parallax-detail-pipeline" aria-labelledby="parallax-method-title">
+        <h3 id="parallax-method-title">How it works</h3>
+        <ol className="forest-pipeline-steps">
+          {parallaxSteps.map(([title, text]) => (
+            <li key={title}>
+              <strong>{title}</strong>
+              <p>{text}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+      <TrajectoryVisualization onEnlarge={onEnlargePlot} />
+    </div>
+  );
+}
+
+function ProjectDetail({ project }: { project: Project }) {
   const displayTitle = project.slug === "multi-armed-bandits"
     ? "Sequential Decision-Making with Multi-Armed Bandits"
     : project.title;
@@ -137,22 +214,7 @@ function ProjectDetail({ project, onEnlargePlot }: { project: Project; onEnlarge
         </ul>
       </div>
 
-      {project.slug === "parallax" ? (
-        <>
-          <section className="explorer-detail-section" aria-labelledby="parallax-method-title">
-            <h3 id="parallax-method-title">How it works</h3>
-            <ol className="forest-pipeline-steps">
-              {parallaxSteps.map(([title, text]) => (
-                <li key={title}>
-                  <strong>{title}</strong>
-                  <p>{text}</p>
-                </li>
-              ))}
-            </ol>
-          </section>
-          <TrajectoryVisualization onEnlarge={onEnlargePlot} />
-        </>
-      ) : project.slug === "multi-armed-bandits" ? (
+      {project.slug === "multi-armed-bandits" ? (
         <>
           <section className="explorer-detail-section" aria-labelledby="bandit-method-title">
             <h3 id="bandit-method-title">Comparison method</h3>
@@ -263,30 +325,41 @@ export function ProjectExplorer({ projects }: { projects: Project[] }) {
           return (
             <article className={`explorer-card explorer-card-${project.slug} ${featuredClass} ${isFlipped ? "is-flipped" : ""}`} id={project.slug} key={project.slug}>
               <div className={`explorer-card-inner ${isFlipped ? "is-flipped" : ""}`}>
-                <div aria-hidden={isFlipped} className="explorer-card-face explorer-card-front">
-                  <h3>{project.slug === "multi-armed-bandits" ? "Sequential Decision-Making with Multi-Armed Bandits" : project.title}</h3>
-                  <p>{project.summary}</p>
-                  <ProjectPreview project={project} />
-                  <ul aria-label={`${project.title} technologies and topics`}>
-                    {project.topics.slice(0, 5).map((topic) => <li key={topic}>{topic}</li>)}
-                  </ul>
-                </div>
+                {project.slug === "parallax" ? (
+                  <ParallaxCardFront isFlipped={isFlipped} project={project} />
+                ) : (
+                  <div aria-hidden={isFlipped} className="explorer-card-face explorer-card-front">
+                    <h3>{project.slug === "multi-armed-bandits" ? "Sequential Decision-Making with Multi-Armed Bandits" : project.title}</h3>
+                    <p>{project.summary}</p>
+                    <ProjectPreview project={project} />
+                    <ul aria-label={`${project.title} technologies and topics`}>
+                      {project.topics.slice(0, 5).map((topic) => <li key={topic}>{topic}</li>)}
+                    </ul>
+                  </div>
+                )}
 
-                <div aria-hidden={!isFlipped} className="explorer-card-face explorer-card-back">
-                  <h3>{project.title}</h3>
-                  <p>{project.slug === "multi-armed-bandits" ? banditDescription : project.summary}</p>
-                  <ul className="explorer-card-highlights">
-                    {project.highlights.slice(0, 2).map((highlight) => <li key={highlight}>{highlight}</li>)}
-                  </ul>
-                  <button
-                    className="explorer-open-button"
-                    onClick={(event) => { event.stopPropagation(); openProject(project, event.currentTarget); }}
-                    tabIndex={isFlipped ? 0 : -1}
-                    type="button"
-                  >
-                    Explore project <span aria-hidden="true">↗</span>
-                  </button>
-                </div>
+                {project.slug === "parallax" ? (
+                  <ParallaxCardBack
+                    isFlipped={isFlipped}
+                    onExplore={(trigger) => openProject(project, trigger)}
+                  />
+                ) : (
+                  <div aria-hidden={!isFlipped} className="explorer-card-face explorer-card-back">
+                    <h3>{project.title}</h3>
+                    <p>{project.slug === "multi-armed-bandits" ? banditDescription : project.summary}</p>
+                    <ul className="explorer-card-highlights">
+                      {project.highlights.slice(0, 2).map((highlight) => <li key={highlight}>{highlight}</li>)}
+                    </ul>
+                    <button
+                      className="explorer-open-button"
+                      onClick={(event) => { event.stopPropagation(); openProject(project, event.currentTarget); }}
+                      tabIndex={isFlipped ? 0 : -1}
+                      type="button"
+                    >
+                      Explore project <span aria-hidden="true">↗</span>
+                    </button>
+                  </div>
+                )}
               </div>
               <button
                 aria-label={`${isFlipped ? "Show front of" : "Flip"} ${project.title} card`}
@@ -311,7 +384,11 @@ export function ProjectExplorer({ projects }: { projects: Project[] }) {
         >
           <div className="explorer-dialog-panel">
             <button aria-label="Close project details" className="explorer-dialog-close" onClick={closeProject} ref={closeButtonRef} type="button">Close <span aria-hidden="true">×</span></button>
-            <ProjectDetail project={activeProject} onEnlargePlot={() => setPlotOpen(true)} />
+            {activeProject.slug === "parallax" ? (
+              <ParallaxProjectDetail onEnlargePlot={() => setPlotOpen(true)} />
+            ) : (
+              <ProjectDetail project={activeProject} />
+            )}
           </div>
 
           {plotOpen && (
