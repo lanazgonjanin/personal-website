@@ -1,89 +1,57 @@
-"use client";
+import Image from "next/image";
 
-import { useEffect, useMemo, useState } from "react";
+const resultUrl =
+  "https://github.com/lanazgonjanin/parallax/blob/main/results/temporal_rotation_correction_1000.png";
+const repositoryUrl = "https://github.com/lanazgonjanin/parallax";
 
-const trajectory = [
-  [52, 298], [70, 287], [89, 279], [108, 262], [126, 247], [148, 240], [169, 226],
-  [187, 206], [209, 197], [232, 184], [254, 165], [278, 154], [302, 148], [326, 132],
-  [350, 116], [376, 111], [402, 118], [428, 107], [454, 91], [481, 84], [507, 91],
-  [533, 78], [558, 64], [586, 70], [612, 58], [642, 67], [670, 48],
-] as const;
-
-export function TrajectoryVisualization() {
-  const [progress, setProgress] = useState<number>(trajectory.length);
-  const [playing, setPlaying] = useState(false);
-
-  useEffect(() => {
-    if (!playing) return;
-
-    const timer = window.setInterval(() => {
-      setProgress((current) => {
-        if (current >= trajectory.length) {
-          setPlaying(false);
-          return current;
-        }
-        return current + 1;
-      });
-    }, 110);
-
-    return () => window.clearInterval(timer);
-  }, [playing]);
-
-  const visiblePoints = useMemo(() => trajectory.slice(0, progress), [progress]);
-  const path = visiblePoints.map(([x, y], index) => `${index === 0 ? "M" : "L"}${x} ${y}`).join(" ");
-
-  const play = () => {
-    if (progress >= trajectory.length) setProgress(1);
-    setPlaying(true);
-  };
-
+export function TrajectoryVisualization({ onEnlarge }: { onEnlarge?: () => void }) {
   return (
-    <div className="trajectory-demo forest-demo-panel">
+    <figure className="trajectory-result forest-demo-panel">
       <div className="forest-demo-header">
         <div>
-          <span>TRAJECTORY VIEWER</span>
-          <strong>Illustrative demonstration</strong>
+          <span>PROJECT RESULT</span>
+          <strong>Temporal Rotation Correction: 1,000 Frames</strong>
         </div>
-        <span>SAMPLE DATA</span>
+        <span>STATIC RESULT</span>
       </div>
 
-      <svg viewBox="0 0 720 350" role="img" aria-label={`Illustrative camera trajectory showing ${progress} of ${trajectory.length} positions`}>
-        <defs>
-          <pattern id="trajectory-grid" width="36" height="36" patternUnits="userSpaceOnUse">
-            <path d="M36 0H0V36" />
-          </pattern>
-        </defs>
-        <rect width="720" height="350" className="trajectory-field" />
-        <rect width="720" height="350" fill="url(#trajectory-grid)" className="trajectory-grid" />
-        <path d="M36 318H694M36 318V28" className="trajectory-axis" />
-        <path d={path} className="trajectory-path" />
-        {visiblePoints.map(([x, y], index) => (
-          <g key={`${x}-${y}`}>
-            <circle cx={x} cy={y} r={index === visiblePoints.length - 1 ? 6 : 3} className={index === visiblePoints.length - 1 ? "trajectory-current" : "trajectory-point"} />
-            {index % 5 === 0 && <path d={`M${x} ${y}l10 -6`} className="trajectory-orientation" />}
-          </g>
-        ))}
-        <text x="648" y="338">X / m</text>
-        <text x="12" y="28">Z / m</text>
-      </svg>
-
-      <div className="trajectory-controls">
-        <button onClick={play} type="button">{playing ? "Playing…" : "Play trajectory"}</button>
-        <button onClick={() => { setPlaying(false); setProgress(1); }} type="button">Reset</button>
-        <label>
-          <span className="sr-only">Trajectory position</span>
-          <input
-            aria-label="Trajectory position"
-            max={trajectory.length}
-            min="1"
-            onChange={(event) => { setPlaying(false); setProgress(Number(event.target.value)); }}
-            type="range"
-            value={progress}
+      <div className="trajectory-result-frame">
+        {onEnlarge ? (
+          <button aria-label="Enlarge original trajectory plot" className="trajectory-enlarge" onClick={onEnlarge} type="button">
+            <Image
+              alt="Trajectory comparison plot showing KITTI ground truth, the original baseline, and temporal rotation correction over the first 1,000 frames"
+              height={1554}
+              sizes="(min-width: 900px) 58vw, 100vw"
+              src="/images/parallax-temporal-rotation-correction-1000.png"
+              width={1547}
+            />
+            <span>Enlarge plot</span>
+          </button>
+        ) : (
+          <Image
+            alt="Trajectory comparison plot showing KITTI ground truth, the original baseline, and temporal rotation correction over the first 1,000 frames"
+            height={1554}
+            sizes="(min-width: 900px) 58vw, 100vw"
+            src="/images/parallax-temporal-rotation-correction-1000.png"
+            width={1547}
           />
-        </label>
-        <output>{progress.toString().padStart(2, "0")} / {trajectory.length}</output>
+        )}
       </div>
-      <p className="forest-demo-note">Sample positions illustrate trajectory playback only; they are not KITTI evaluation results.</p>
-    </div>
+
+      <figcaption className="trajectory-result-caption">
+        <p>
+          Comparison of the original trajectory and temporal rotation-corrected estimate against
+          KITTI ground truth over 1,000 frames.
+        </p>
+        <div className="trajectory-result-links">
+          <a href={resultUrl} rel="noreferrer" target="_blank">
+            View original plot <span aria-hidden="true">↗</span>
+          </a>
+          <a href={repositoryUrl} rel="noreferrer" target="_blank">
+            View repository <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </figcaption>
+    </figure>
   );
 }

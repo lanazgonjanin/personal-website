@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
 import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 
+import "./projects-explorer.css";
+
 const ibmPlexSans = IBM_Plex_Sans({
   variable: "--font-projects-sans",
   subsets: ["latin"],
